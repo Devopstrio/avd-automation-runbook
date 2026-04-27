@@ -1,0 +1,57 @@
+name: 'AVD Automation Platform CD'
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/**'
+      - 'backend/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  build-and-push:
+    name: 'Build Platform Containers'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v3
+
+    - name: Azure CLI Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: ACR Login
+      run: az acr login --name acravdops
+
+    - name: Build API Gateway
+      run: |
+        docker build -t acravdops.azurecr.io/devopstrio/automation-api:${{ github.sha }} ./backend
+        docker push acravdops.azurecr.io/devopstrio/automation-api:${{ github.sha }}
+
+    - name: Build Runbook Engine
+      run: |
+        docker build -t acravdops.azurecr.io/devopstrio/runbook-engine:${{ github.sha }} ./apps/runbook-engine
+        docker push acravdops.azurecr.io/devopstrio/runbook-engine:${{ github.sha }}
+
+  deploy-to-aks:
+    name: 'Deploy Orchestration Layer'
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v3
+
+    - name: Set AKS Context
+      uses: azure/aks-set-context@v3
+      with:
+        resource-group: 'rg-avd-automation-prd'
+        cluster-name: 'aks-avd-ops-prd'
+
+    - name: Helm Upgrade (Automation Stack)
+      run: |
+        helm upgrade --install avd-automation ./helm/avd-automation-runbook \
+        --namespace avd-ops-prod --create-namespace \
+        --set api.image.tag=${{ github.sha }} \
+        --set engine.image.tag=${{ github.sha }}
