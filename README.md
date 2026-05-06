@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 <img src="https://raw.githubusercontent.com/Devopstrio/.github/main/assets/Browser_logo.png" height="90" alt="Devopstrio Logo" />
 
@@ -33,18 +33,18 @@ The platform bridges the gap between raw infrastructure and product operations, 
 
 ### 1. High-Level Automation Architecture
 ```mermaid
-graph TD
-    User[IT Ops Admin] --> Portal[Next.js Command Center]
-    Portal --> API[FastAPI Gateway]
-    API --> Engine[Runbook Orchestrator]
-    Engine --> Redis[Distributed Task Queue]
-    Redis --> Worker[Compute Workers]
-    Worker --> Azure[Azure Resource Manager / AVD]
+flowchart TD
+    User["IT Ops Admin"] --> Portal["Next.js Command Center"]
+    Portal["Next.js Command Center"] --> API["FastAPI Gateway"]
+    API["FastAPI Gateway"] --> Engine["Runbook Orchestrator"]
+    Engine["Runbook Orchestrator"] --> Redis["Distributed Task Queue"]
+    Redis["Distributed Task Queue"] --> Worker["Compute Workers"]
+    Worker["Compute Workers"] --> Azure["Azure Resource Manager / AVD"]
     
-    subgraph "Intelligent Logic"
-        Auto[Autoscale Engine]
-        Inc[Incident Remediation]
-        Comp[Compliance Guardrails]
+    subgraph IntelligentLogic["Intelligent Logic"]
+        Auto["Autoscale Engine"]
+        Inc["Incident Remediation"]
+        Comp["Compliance Guardrails"]
     end
     
     Auto --> API
@@ -73,162 +73,162 @@ sequenceDiagram
 
 ### 3. Host Pool Autoscale Lifecycle
 ```mermaid
-graph TD
-    Monitor[Metrics Collector] --> Load[Analyze Session Density]
-    Load -->|Threshold High| ScaleUp[Provision New Hosts]
-    Load -->|Threshold Low| ScaleDown[Drain & Shutdown]
-    ScaleUp --> Register[Register to Host Pool]
-    ScaleDown --> Deallocate[Stop VM (Cost Savings)]
+flowchart TD
+    Monitor["Metrics Collector"] --> Load["Analyze Session Density"]
+    Load["Analyze Session Density"] -->|Threshold High| ScaleUp["Provision New Hosts"]
+    Load["Analyze Session Density"] -->|Threshold Low| ScaleDown["Drain & Shutdown"]
+    ScaleUp["Provision New Hosts"] --> Register["Register to Host Pool"]
+    ScaleDown["Drain & Shutdown"] --> Deallocate["Stop VM (Cost Savings)"]
 ```
 
 ### 4. Image Patch Pipeline
 ```mermaid
-graph LR
-    Master[Master Image] --> Backup[Backup Snapshot]
-    Backup --> Patch[Automated Update Cluster]
-    Patch --> App[Software Updates]
-    App --> Sysprep[Capture & Sysprep]
-    Sysprep --> Test[Validation Pool]
-    Test --> Prod[Promote to Production Gallery]
+flowchart LR
+    Master["Master Image"] --> Backup["Backup Snapshot"]
+    Backup["Backup Snapshot"] --> Patch["Automated Update Cluster"]
+    Patch["Automated Update Cluster"] --> App["Software Updates"]
+    App["Software Updates"] --> Sysprep["Capture & Sysprep"]
+    Sysprep["Capture & Sysprep"] --> Test["Validation Pool"]
+    Test["Validation Pool"] --> Prod["Promote to Production Gallery"]
 ```
 
 ### 5. Incident Remediation Flow (Self-Healing)
 ```mermaid
-graph TD
-    Alert[Session Stuck Detected] --> Rule[Match Remediation Policy]
-    Rule --> Drain[Set VM to Drain]
-    Drain --> Kill[Reset User Process]
-    Kill --> Verify[Check Session Health]
-    Verify -->|Fixed| Restore[Make Available]
-    Verify -->|Failed| Restart[Hard Reboot VM]
+flowchart TD
+    Alert["Session Stuck Detected"] --> Rule["Match Remediation Policy"]
+    Rule["Match Remediation Policy"] --> Drain["Set VM to Drain"]
+    Drain["Set VM to Drain"] --> Kill["Reset User Process"]
+    Kill["Reset User Process"] --> Verify["Check Session Health"]
+    Verify["Check Session Health"] -->|Fixed| Restore["Make Available"]
+    Verify["Check Session Health"] -->|Failed| Restart["Hard Reboot VM"]
 ```
 
 ### 6. Security Trust Boundary
 ```mermaid
-graph TD
-    Request[API Request] --> WAF[Azure WAF]
-    WAF --> Gateway[API Management]
-    Gateway --> RBAC[Role-Based Access Check]
-    RBAC --> KeyVault[Fetch Secrets/Tokens]
-    KeyVault --> Target[Execute Automation]
+flowchart TD
+    Request["API Request"] --> WAF["Azure WAF"]
+    WAF["Azure WAF"] --> Gateway["API Management"]
+    Gateway["API Management"] --> RBAC["Role-Based Access Check"]
+    RBAC["Role-Based Access Check"] --> KeyVault["Fetch Secrets/Tokens"]
+    KeyVault["Fetch Secrets/Tokens"] --> Target["Execute Automation"]
 ```
 
 ### 7. Global Region Topology
 ```mermaid
-graph LR
-    HQ[Global Control Plane] --> Region1[UK South Pool]
-    HQ --> Region2[US East Pool]
-    HQ --> Region3[Asia East Pool]
-    Region1 --> Policy[Regional Governance]
+flowchart LR
+    HQ["Global Control Plane"] --> Region1["UK South Pool"]
+    HQ["Global Control Plane"] --> Region2["US East Pool"]
+    HQ["Global Control Plane"] --> Region3["Asia East Pool"]
+    Region1["UK South Pool"] --> Policy["Regional Governance"]
 ```
 
 ### 8. API Request Lifecycle
 ```mermaid
-graph LR
-    UI[Frontend] --> Auth[OIDC/JWT Challenge]
-    Auth --> APIGateway[FastAPI Entry]
-    APIGateway --> Service[Domain Logic]
-    Service --> DB[(Audit Ledger)]
+flowchart LR
+    UI["Frontend"] --> Auth["OIDC/JWT Challenge"]
+    Auth["OIDC/JWT Challenge"] --> APIGateway["FastAPI Entry"]
+    APIGateway["FastAPI Entry"] --> Service["Domain Logic"]
+    Service["Domain Logic"] --> DB[("Audit Ledger")]
 ```
 
 ### 9. Multi-Tenant Model
 ```mermaid
-graph TD
-    Root[Platform Root]
-    Root --> TenantA[Business Unit A]
-    Root --> TenantB[Business Unit B]
-    TenantA --> RPs[Host Pool A1/A2]
-    TenantB --> RPsB[Host Pool B1]
+flowchart TD
+    Root["Platform Root"]
+    Root["Platform Root"] --> TenantA["Business Unit A"]
+    Root["Platform Root"] --> TenantB["Business Unit B"]
+    TenantA["Business Unit A"] --> RPs["Host Pool A1/A2"]
+    TenantB["Business Unit B"] --> RPsB["Host Pool B1"]
 ```
 
 ### 10. Monitoring & Telemetry Flow
 ```mermaid
-graph LR
-    Logs[AVD Diagnostics] --> LAW[Log Analytics Workspace]
-    LAW --> Engine[Compliance Engine]
-    Engine --> Alert[Dashboard Alert]
-    Alert --> Remediation[Auto-Runbook]
+flowchart LR
+    Logs["AVD Diagnostics"] --> LAW["Log Analytics Workspace"]
+    LAW["Log Analytics Workspace"] --> Engine["Compliance Engine"]
+    Engine["Compliance Engine"] --> Alert["Dashboard Alert"]
+    Alert["Dashboard Alert"] --> Remediation["Auto-Runbook"]
 ```
 
 ### 11. Disaster Recovery Topology
 ```mermaid
-graph TD
-    Primary[Active Region] --> Replication[Image Replication]
-    Replication --> Failover[Standby Region]
-    Failover --> Sync[Workspace Membership Sync]
+flowchart TD
+    Primary["Active Region"] --> Replication["Image Replication"]
+    Replication["Image Replication"] --> Failover["Standby Region"]
+    Failover["Standby Region"] --> Sync["Workspace Membership Sync"]
 ```
 
 ### 12. User Onboarding Flow
 ```mermaid
-graph TD
-    HR[HR System Event] --> Webhook[Onboarding API]
-    Webhook --> Group[Assign Entra Group]
-    Group --> App[Assign RemoteApps]
-    App --> Welcome[Send Access Mail]
+flowchart TD
+    HR["HR System Entry"] --> Webhook["Onboarding API"]
+    Webhook["Onboarding API"] --> Group["Assign Entra Group"]
+    Group["Assign Entra Group"] --> App["Assign RemoteApps"]
+    App["Assign RemoteApps"] --> Welcome["Send Access Mail"]
 ```
 
 ### 13. Cost Shutdown Workflow
 ```mermaid
-graph LR
-    Check[Check Business Hours] --> BusinessEnd[Evening Threshold]
-    BusinessEnd --> Scan[Scan Idle Hosts]
-    Scan --> Stop[Stop & Deallocate]
+flowchart LR
+    Check["Check Business Hours"] --> BusinessEnd["Evening Threshold"]
+    BusinessEnd["Evening Threshold"] --> Scan["Scan Idle Hosts"]
+    Scan["Scan Idle Hosts"] --> Stop["Stop & Deallocate"]
 ```
 
 ### 14. CI/CD Operations Pipeline
 ```mermaid
-graph LR
-    Code[Runbook Update] --> Lint[PSScriptAnalyzer]
-    Lint --> Lab[Deployment to Lab]
-    Lab --> Cert[Compliance Signature]
-    Cert --> Prod[Global Distribution]
+flowchart LR
+    Code["Runbook Update"] --> Lint["PSScriptAnalyzer"]
+    Lint["PSScriptAnalyzer"] --> Lab["Deployment to Lab"]
+    Lab["Deployment to Lab"] --> Cert["Compliance Signature"]
+    Cert["Compliance Signature"] --> Prod["Global Distribution"]
 ```
 
 ### 15. Executive Governance Workflow
 ```mermaid
-graph TD
-    KPI[Cost/Uptime KPI] --> Report[Quarterly Review]
-    Report --> Tuning[Adjust Scaling Rules]
+flowchart TD
+    KPI["Cost/Uptime KPI"] --> Report["Quarterly Review"]
+    Report["Quarterly Review"] --> Tuning["Adjust Scaling Rules"]
 ```
 
 ### 16. Session Host Lifecycle
 ```mermaid
-graph TD
-    New[Provisioned] --> Operational[Available]
-    Operational --> Maintenance[Draining]
-    Maintenance --> Patched[Updated]
-    Patched --> Operational
+flowchart TD
+    New["Provisioned"] --> Operational["Available"]
+    Operational["Available"] --> Maintenance["Draining"]
+    Maintenance["Draining"] --> Patched["Updated"]
+    Patched["Updated"] --> Operational["Available"]
 ```
 
 ### 17. Identity Federation Model
 ```mermaid
-graph LR
-    OnPrem[Local AD] --> Sync[Entra Connect]
-    Sync --> Entra[Entra ID]
-    Entra --> AVD[AVD Sso]
+flowchart LR
+    OnPrem["Local AD"] --> Sync["Entra Connect"]
+    Sync["Entra Connect"] --> Entra["Entra ID"]
+    Entra["Entra ID"] --> AVD["AVD Sso"]
 ```
 
 ### 18. Approval Workflow
 ```mermaid
-graph LR
-    Request[Sensitive Runbook] --> Gate[Manager Approval]
-    Gate -->|Approve| Execute[Run Job]
-    Gate -->|Deny| Reject[Log Audit]
+flowchart LR
+    Request["Sensitive Runbook"] --> Gate["Manager Approval"]
+    Gate["Manager Approval"] -->|Approve| Execute["Run Job"]
+    Gate["Manager Approval"] -->|Deny| Reject["Log Audit"]
 ```
 
 ### 19. Disaster Recovery Failover Pipeline
 ```mermaid
-graph TD
-    Detect[Region Outage] --> Switch[Update Traffic Manager]
-    Switch --> Spin[Provision Emergency Hosts]
-    Spin --> Resume[Service Restored]
+flowchart TD
+    Detect["Region Outage"] --> Switch["Update Traffic Manager"]
+    Switch["Update Traffic Manager"] --> Spin["Provision Emergency Hosts"]
+    Spin["Provision Emergency Hosts"] --> Resume["Service Restored"]
 ```
 
 ### 20. Compliance Drift Workflow
 ```mermaid
-graph LR
-    Audit[Schedule Check] --> Diff[Detect Drift]
-    Diff --> Heal[Auto-Enforce Configuration]
+flowchart LR
+    Audit["Schedule Check"] --> Diff["Detect Drift"]
+    Diff["Detect Drift"] --> Heal["Auto-Enforce Configuration"]
 ```
 
 ---
